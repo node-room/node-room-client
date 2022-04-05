@@ -20,19 +20,19 @@ export class DeltaManager {
 
         return delta
             .map((p) => {
-                const cachedDao = httpSelectManager.getSelect(p.daoIdentifier);
+                const cachedDao = httpSelectManager.getSelect(p.nodeIdentifier);
                 if (cachedDao) {
                     const newResult = findNewValueFromDelta(cachedDao?.result, p.delta, p.id);
-                    httpSelectManager.addSelect(p.daoIdentifier, cachedDao?.httpClientUUID, cachedDao?.databaseName, cachedDao?.nodeName, cachedDao?.paramObject, newResult);
+                    httpSelectManager.addSelect(p.nodeIdentifier, cachedDao?.httpClientUUID, cachedDao?.roomName, cachedDao?.nodeName, cachedDao?.paramObject, newResult);
                     const deltaHttpSelect: HttpSelect = {
-                        databaseName: cachedDao.databaseName,
+                        roomName: cachedDao.roomName,
                         httpClientUUID: cachedDao.httpClientUUID,
                         nodeName: cachedDao.nodeName,
                         paramObject: cachedDao.paramObject,
                         result: newResult,
                     };
 
-                    return { nodeIdentifier: p.daoIdentifier, result: deltaHttpSelect };
+                    return { nodeIdentifier: p.nodeIdentifier, result: deltaHttpSelect };
                 } else {
                     return null;
                 }
